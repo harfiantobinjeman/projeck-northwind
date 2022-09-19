@@ -15,6 +15,7 @@ namespace Northwind.Services
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
 
+        //dependency injection
         public CategoryService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
@@ -29,6 +30,7 @@ namespace Northwind.Services
         public async Task<IEnumerable<CategoryDto>> GetAllCategory(bool trackChanges)
         {
             var categoryModel = await _repositoryManager.CategoryRepository.GetAllCategory(trackChanges);
+            // source = categoryModel, target = CategoryDto
             var categoryDto = _mapper.Map<IEnumerable<CategoryDto>>(categoryModel);
             return categoryDto;
         }
