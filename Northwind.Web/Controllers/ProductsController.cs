@@ -12,9 +12,9 @@ namespace Northwind.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ShopeeDbContext _context;
+        private readonly NorthwindContext _context;
 
-        public ProductsController(ShopeeDbContext context)
+        public ProductsController(NorthwindContext context)
         {
             _context = context;
         }

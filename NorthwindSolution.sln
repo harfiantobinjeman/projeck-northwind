@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Domain", "Northwi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Persistence", "Northwind.Persistence\Northwind.Persistence.csproj", "{39F7034D-7DB2-4B15-B1AB-F745DBCE5642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Contracts", "Northwind.Contracts\Northwind.Contracts.csproj", "{55A29014-4218-4731-B5FA-7F4BBA892761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Contracts", "Northwind.Contracts\Northwind.Contracts.csproj", "{55A29014-4218-4731-B5FA-7F4BBA892761}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Services.Abstraction", "Northwind.Services.Abstraction\Northwind.Services.Abstraction.csproj", "{12827F96-0DE8-4C1E-BD24-CF1CF27E3C5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Services", "Northwind.Services\Northwind.Services.csproj", "{D5A4F6FC-5E14-496C-9402-CCD193DC2C68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{55A29014-4218-4731-B5FA-7F4BBA892761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55A29014-4218-4731-B5FA-7F4BBA892761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55A29014-4218-4731-B5FA-7F4BBA892761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12827F96-0DE8-4C1E-BD24-CF1CF27E3C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12827F96-0DE8-4C1E-BD24-CF1CF27E3C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12827F96-0DE8-4C1E-BD24-CF1CF27E3C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12827F96-0DE8-4C1E-BD24-CF1CF27E3C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A4F6FC-5E14-496C-9402-CCD193DC2C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A4F6FC-5E14-496C-9402-CCD193DC2C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A4F6FC-5E14-496C-9402-CCD193DC2C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A4F6FC-5E14-496C-9402-CCD193DC2C68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{2453C62E-2CFB-49A6-A8B2-0B63934EB27E} = {F17BCE44-1553-482B-8E03-857503C9C21D}
 		{39F7034D-7DB2-4B15-B1AB-F745DBCE5642} = {DC67F140-5BEC-4307-A17A-9960F58629DB}
 		{55A29014-4218-4731-B5FA-7F4BBA892761} = {F17BCE44-1553-482B-8E03-857503C9C21D}
+		{12827F96-0DE8-4C1E-BD24-CF1CF27E3C5C} = {F17BCE44-1553-482B-8E03-857503C9C21D}
+		{D5A4F6FC-5E14-496C-9402-CCD193DC2C68} = {F17BCE44-1553-482B-8E03-857503C9C21D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD378B05-9EE6-4EA2-915F-E2EC3DAA649E}
