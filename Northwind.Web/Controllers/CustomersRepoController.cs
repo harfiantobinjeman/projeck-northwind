@@ -28,7 +28,7 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: CustomersRepo/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace Northwind.Web.Controllers
 
             /*var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.CustomerId == id);*/
-            var customer = await _context.EmployeeRepository.GetCategoryById((int)id, false);
+            var customer = await _context.EmployeeRepository.GetCategoryById((string)id, false);
             if (customer == null)
             {
                 return NotFound();
@@ -71,7 +71,7 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: CustomersRepo/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
@@ -79,7 +79,7 @@ namespace Northwind.Web.Controllers
             }
 
             //var customer = await _context.Customers.FindAsync(id);
-            var customer = await _context.EmployeeRepository.GetCategoryById((int)id, true);
+            var customer = await _context.EmployeeRepository.GetCategoryById((string)id, true);
             if (customer == null)
             {
                 return NotFound();
@@ -126,7 +126,7 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: CustomersRepo/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
@@ -135,7 +135,7 @@ namespace Northwind.Web.Controllers
 
             /*var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.CustomerId == id);*/
-            var customer = await _context.EmployeeRepository.GetCategoryById((int)id, false);
+            var customer = await _context.EmployeeRepository.GetCategoryById((string)id, false);
             if (customer == null)
             {
                 return NotFound();
@@ -147,12 +147,12 @@ namespace Northwind.Web.Controllers
         // POST: CustomersRepo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(string? id)
         {
             /*var customer = await _context.Customers.FindAsync(id);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();*/
-            var customer = await _context.EmployeeRepository.GetCategoryById((int)id, false);
+            var customer = await _context.EmployeeRepository.GetCategoryById((string)id, false);
             _context.EmployeeRepository.Remove(customer);
             await _context.SaveAsync();
             return RedirectToAction(nameof(Index));

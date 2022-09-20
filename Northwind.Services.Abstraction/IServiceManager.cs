@@ -9,5 +9,7 @@ namespace Northwind.Services.Abstraction
     public interface IServiceManager
     {
         ICategoryService CategoryService { get; }
+        void Save();
+        Task SaveAsync();
     }
 }

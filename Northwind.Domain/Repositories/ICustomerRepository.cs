@@ -11,7 +11,7 @@ namespace Northwind.Domain.Repositories
     {
         Task<IEnumerable<Customer>> GetAllCategory(bool trackChanges);
 
-        Task<Customer> GetCategoryById(int customerId, bool trackChanges);
+        Task<Customer> GetCategoryById(string customerId, bool trackChanges);
 
         void Insert(Customer customer);
 
