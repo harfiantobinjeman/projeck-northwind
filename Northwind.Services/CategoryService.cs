@@ -27,6 +27,7 @@ namespace Northwind.Services
         {
             var edit = _mapper.Map<Category>(categoryDto);
             _repositoryManager.CategoryRepository.Edit(edit);
+            _repositoryManager.Save();
         }
 
         public async Task<IEnumerable<CategoryDto>> GetAllCategory(bool trackChanges)
@@ -48,12 +49,14 @@ namespace Northwind.Services
         {
             var newData = _mapper.Map<Category>(categoryForCreateDto);
             _repositoryManager.CategoryRepository.Insert(newData);
+            _repositoryManager.Save();
         }
 
         public void Remove(CategoryDto categoryDto)
         {
             var delete = _mapper.Map<Category>(categoryDto);
             _repositoryManager.CategoryRepository.Remove(delete);
+            _repositoryManager.Save();
         }
     }
 }

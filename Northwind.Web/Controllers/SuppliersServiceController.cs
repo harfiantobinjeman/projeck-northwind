@@ -5,34 +5,30 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Northwind.Contracts.Dto.Category;
+using Northwind.Contracts.Dto.Supplier;
 using Northwind.Domain.Models;
 using Northwind.Persistence;
 using Northwind.Services.Abstraction;
 
 namespace Northwind.Web.Controllers
 {
-    public class CategoriesServiceController : Controller
+    public class SuppliersServiceController : Controller
     {
         //private readonly NorthwindContext _context;
-        private readonly IServiceManager _serviceContext;
+        private readonly IServiceManager _context;
 
-        public CategoriesServiceController(IServiceManager serviceContext)
+        public SuppliersServiceController(IServiceManager context)
         {
-            //_context = context;
-            _serviceContext = serviceContext;
+            _context = context;
         }
 
-        // GET: CategoriesService
+        // GET: SuppliersService
         public async Task<IActionResult> Index()
         {
-            //var categories = await _context.Categories.ToListAsync();
-            var categoriesDto = await _serviceContext.CategoryService.GetAllCategory(false);
-            return View(categoriesDto);
-            //return View(await _context.Categories.ToListAsync());
+            return View(await _context.SupplierService.GetAllSupplier(false));
         }
 
-        // GET: CategoriesService/Details/5
+        // GET: SuppliersService/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,41 +36,41 @@ namespace Northwind.Web.Controllers
                 return NotFound();
             }
 
-            /*var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);*/
-            var category = await _serviceContext.CategoryService.GetCategoryById((int)id, false);
-            if (category == null)
+            /*var supplier = await _context.Suppliers
+                .FirstOrDefaultAsync(m => m.SupplierId == id);*/
+            var supplier = await _context.SupplierService.GetSupplierById((int)id, false);
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(supplier);
         }
 
-        // GET: CategoriesService/Create
+        // GET: SuppliersService/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: CategoriesService/Create
+        // POST: SuppliersService/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,Description,Picture")] CategoryForCreateDto category)
+        public async Task<IActionResult> Create([Bind("CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage")] SupplierForCreateDto supplier)
         {
             if (ModelState.IsValid)
             {
-                /*_context.Add(category);
+                /*_context.Add(supplier);
                 await _context.SaveChangesAsync();*/
-                _serviceContext.CategoryService.Insert(category);
+                _context.SupplierService.Insert(supplier);
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(supplier);
         }
 
-        // GET: CategoriesService/Edit/5
+        // GET: SuppliersService/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,23 +78,23 @@ namespace Northwind.Web.Controllers
                 return NotFound();
             }
 
-            /*var category = await _context.Categories.FindAsync(id);*/
-            var category = await _serviceContext.CategoryService.GetCategoryById((int)id, true);
-            if (category == null)
+            /*var supplier = await _context.Suppliers.FindAsync(id);*/
+            var supplier = await _context.SupplierService.GetSupplierById((int)id, true);
+            if (supplier == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(supplier);
         }
 
-        // POST: CategoriesService/Edit/5
+        // POST: SuppliersService/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Description,Picture")] CategoryDto category)
+        public async Task<IActionResult> Edit(int id, [Bind("SupplierId,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage")] SupplierDto supplierDto)
         {
-            if (id != category.CategoryId)
+            if (id != supplierDto.SupplierId)
             {
                 return NotFound();
             }
@@ -107,13 +103,13 @@ namespace Northwind.Web.Controllers
             {
                 try
                 {
-                    /*_context.Update(category);
+                    /*_context.Update(supplier);
                     await _context.SaveChangesAsync();*/
-                    _serviceContext.CategoryService.Edit(category);
+                    _context.SupplierService.Edit(supplierDto);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*if (!CategoryExists(category.CategoryId))
+                    /*if (!SupplierExists(supplierDto.SupplierId))
                     {
                         return NotFound();
                     }
@@ -125,10 +121,10 @@ namespace Northwind.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(supplierDto);
         }
 
-        // GET: CategoriesService/Delete/5
+        // GET: SuppliersService/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,33 +132,33 @@ namespace Northwind.Web.Controllers
                 return NotFound();
             }
 
-            /*var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);*/
-            var category = await _serviceContext.CategoryService.GetCategoryById((int)id, false);
-            if (category == null)
+            /*var supplier = await _context.Suppliers
+                .FirstOrDefaultAsync(m => m.SupplierId == id);*/
+            var supplier = await _context.SupplierService.GetSupplierById((int)id, false);
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(supplier);
         }
 
-        // POST: CategoriesService/Delete/5
+        // POST: SuppliersService/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            /*var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
+            /*var supplier = await _context.Suppliers.FindAsync(id);
+            _context.Suppliers.Remove(supplier);
             await _context.SaveChangesAsync();*/
-            var category = await _serviceContext.CategoryService.GetCategoryById((int)id, false);
-            _serviceContext.CategoryService.Remove(category);
+            var supplier = await _context.SupplierService.GetSupplierById((int)id, false);
+            _context.SupplierService.Remove(supplier);
             return RedirectToAction(nameof(Index));
         }
 
-        /*private bool CategoryExists(int id)
+        /*private bool SupplierExists(int id)
         {
-            return _context.Categories.Any(e => e.CategoryId == id);
+            return _context.Suppliers.Any(e => e.SupplierId == id);
         }*/
     }
 }
