@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Northwind.Contracts.Dto.Category;
+using Northwind.Contracts.Dto.Product;
 using Northwind.Domain.Base;
 using Northwind.Domain.Models;
 using Northwind.Persistence;
@@ -80,19 +81,116 @@ namespace Northwind.Test
                 //define model category
                 var categoryModel = new Category
                 {
-                    CategoryName = "Bag",
-                    Description = "Eiger"
+                    CategoryName = "Jajan",
+                    Description = "Jajan"
                 };
                 _repositoryManager.CategoryRepository.Insert(categoryModel);
                 _repositoryManager.Save();
-                categoryModel.CategoryId.ShouldBeEquivalentTo(23);
+                categoryModel.CategoryId.ShouldBeEquivalentTo(24);
 
                 //assert
                 var category = _repositoryManager.CategoryRepository.GetAllCategory(false);
                 category.ShouldNotBeNull();
-                category.Result.Count().ShouldBe(12);
+                category.Result.Count().ShouldBe(13);
                 
 
+            }
+        }
+
+        [Fact]
+        public void TestCreateProductRepo()
+        {
+            using (var context = new NorthwindContext(optionBuilder.Options))
+            {
+                // act
+                _repositoryManager = new RepositoryManager(context);
+
+                //define model category
+                var categoryModel = new Product
+                {
+                    ProductName = "Hot Wheels",
+                    SupplierId = 1,
+                    CategoryId = 1,
+                    QuantityPerUnit = "1",
+                    Discontinued = false
+                };
+                _repositoryManager.ProductRepository.Insert(categoryModel);
+                _repositoryManager.Save();
+
+                //assert
+                var category = _repositoryManager.CategoryRepository.GetAllCategory(false);
+                category.ShouldNotBeNull();
+                category.Result.Count().ShouldBe(79);
+            }
+        }
+
+        [Fact]
+        public void TestCreateProductService()
+        {
+            using (var context = new NorthwindContext(optionBuilder.Options))
+            {
+                // act
+                _repositoryManager = new RepositoryManager(context);
+                IServiceManager serviceManager = new ServiceManager(_repositoryManager, mapper);
+                var categoryForCreate = new ProductForCreateDto
+                {
+                    ProductName = "Testing55",
+                    QuantityPerUnit = "2",
+                    Discontinued = false,
+                };
+                serviceManager.ProductService.Insert(categoryForCreate);
+
+                //assert
+                var category = serviceManager.ProductService.GetAllProduct(false);
+                category.ShouldNotBeNull();
+                category.Result.Count().ShouldBe(82);
+            }
+        }
+
+        [Fact]
+        public void TestEditProductService()
+        {
+            using (var context = new NorthwindContext(optionBuilder.Options))
+            {
+                // act
+                _repositoryManager = new RepositoryManager(context);
+                IServiceManager serviceManager = new ServiceManager(_repositoryManager, mapper);
+                var categoryForCreate = new ProductDto
+                {
+                    ProductId = 83,
+                    ProductName = "Koran",
+                    SupplierId = 2,
+                    CategoryId = 2,
+                    QuantityPerUnit = "12",
+                    Discontinued = true,
+                };
+                serviceManager.ProductService.Edit(categoryForCreate);
+
+                //assert
+                var category = serviceManager.ProductService.GetAllProduct(false);
+                category.ShouldNotBeNull();
+                category.Result.Count().ShouldBe(80);
+            }
+        }
+
+        [Fact]
+        public void TestDeleteProductService()
+        {
+            using (var context = new NorthwindContext(optionBuilder.Options))
+            {
+                // act
+                _repositoryManager = new RepositoryManager(context);
+                IServiceManager serviceManager = new ServiceManager(_repositoryManager, mapper);
+                var categoryForCreate = new ProductDto
+                {
+                    ProductId = 83
+                };
+                serviceManager.ProductService.Remove(categoryForCreate);
+
+                //assert
+                var category = serviceManager.ProductService.GetAllProduct(false);
+                category.ShouldNotBeNull();
+                category.Result.Count().ShouldBe(79);
             }
         }
 
