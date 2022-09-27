@@ -44,6 +44,13 @@ namespace Northwind.Services
             return productDto;
         }
 
+        public async Task<IEnumerable<ProductDto>> GetProductPaged(int pageIndex, int pageSize, bool trackChanges)
+        {
+            var productModel = await _repositoryManager.ProductRepository.GetProductPaged(pageIndex, pageSize, trackChanges);
+            var productDto = _mapper.Map<IEnumerable<ProductDto>>(productModel);
+            return productDto;
+        }
+
         public void Insert(ProductForCreateDto productForCreateDto)
         {
             var insert = _mapper.Map<Product>(productForCreateDto);

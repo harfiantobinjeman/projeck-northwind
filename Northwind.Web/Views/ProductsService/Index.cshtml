@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Northwind.Contracts.Dto.Product.ProductDto>
+﻿@model X.PagedList.IPagedList<Northwind.Contracts.Dto.Product.ProductDto>
+@using X.PagedList.Mvc.Core
+<link href="~/css/PagedList.css" rel="stylesheet" type="text/css"/>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,8 +11,8 @@
 @using (Html.BeginForm("Index","ProductsService",FormMethod.Get)){
     <div>
         <p>
-            Find By Product Name : @Html.TextBox("SearchString")
-            <input type="submit" value="Search"/>
+            Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Product or Company Name" })
+            <input type="submit" value="Search" />
         </p>
     </div>
 }
@@ -22,22 +24,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UnitPrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitsInStock)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UnitsInStock)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitsOnOrder)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UnitsOnOrder)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Supplier)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Supplier)
             </th>
             <th></th>
         </tr>
@@ -72,3 +74,4 @@
 }
     </tbody>
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new{page, CurrentFilter = ViewBag.CurrentFilter}));

@@ -13,19 +13,20 @@ using X.PagedList;
 
 namespace Northwind.Web.Controllers
 {
-    public class ProductsServiceController : Controller
+    public class ProductsPagedServerController : Controller
     {
         private readonly IServiceManager _context;
 
-        public ProductsServiceController(IServiceManager context)
+        public ProductsPagedServerController(IServiceManager context)
         {
             _context = context;
         }
 
         // GET: ProductsService
-        public async Task<IActionResult> Index(string searchString, string currentFilter, int? page)
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? page, int? fetchSize)
         {
-            var pageNumber = page ?? 1;
+            var pageIndex = page ?? 1;
+            var pageSize = fetchSize ?? 5;
             if (searchString != null)
             {
                 page = 1;
@@ -36,13 +37,18 @@ namespace Northwind.Web.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            var product = await _context.ProductService.GetAllProduct(false);
+            var product = await _context.ProductService.GetProductPaged(pageIndex, pageSize, false);
+            var totalRows = product.Count();
             if (!String.IsNullOrEmpty(searchString))
             {
                 product = product.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower()) ||
                 p.Supplier.CompanyName.ToLower().Contains(searchString.ToLower()));
             }
-            return View(product.ToPagedList(pageNumber, 10));
+
+            var productDtoPaged = new StaticPagedList<ProductDto>(product, pageIndex, pageSize - (pageSize-1), totalRows);
+            ViewBag.PagedList = new SelectList(new List<int> { 8, 15, 20 });
+
+            return View(productDtoPaged);
         }
 
         // GET: ProductsService/Details/5
