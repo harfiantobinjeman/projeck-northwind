@@ -14,7 +14,6 @@ namespace Northwind.Web.Controllers
 {
     public class ProductsServiceController : Controller
     {
-        //private readonly NorthwindContext _context;
         private readonly IServiceManager _context;
 
         public ProductsServiceController(IServiceManager context)
@@ -25,7 +24,6 @@ namespace Northwind.Web.Controllers
         // GET: ProductsService
         public async Task<IActionResult> Index()
         {
-            /*var northwindContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);*/
             var product = await _context.ProductService.GetAllProduct(false);
             return View(product);
         }
@@ -37,11 +35,6 @@ namespace Northwind.Web.Controllers
             {
                 return NotFound();
             }
-
-            /*var product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ProductId == id);*/
             var product = await _context.ProductService.GetProductById((int)id, false);
             if (product == null)
             {
@@ -70,8 +63,6 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*_context.Add(product);
-                await _context.SaveChangesAsync();*/
                 _context.ProductService.Insert(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -89,8 +80,6 @@ namespace Northwind.Web.Controllers
             {
                 return NotFound();
             }
-
-            /*var product = await _context.Products.FindAsync(id);*/
             var product = await _context.ProductService.GetProductById((int)id, true);
             if (product == null)
             {
@@ -119,20 +108,10 @@ namespace Northwind.Web.Controllers
             {
                 try
                 {
-                    /*_context.Update(product);
-                    await _context.SaveChangesAsync();*/
                     _context.ProductService.Edit(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }*/
                     throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -151,11 +130,6 @@ namespace Northwind.Web.Controllers
             {
                 return NotFound();
             }
-
-            /*var product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ProductId == id);*/
             var product = await _context.ProductService.GetProductById((int)id, false);
             if (product == null)
             {
@@ -170,17 +144,9 @@ namespace Northwind.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            /*var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();*/
             var product = await _context.ProductService.GetProductById((int)id, false);
             _context.ProductService.Remove(product);
             return RedirectToAction(nameof(Index));
         }
-
-        /*private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
-        }*/
     }
 }
