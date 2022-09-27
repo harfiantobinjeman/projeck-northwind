@@ -4,7 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Product With Pagination</h1>
+
+@using (Html.BeginForm("Index","ProductsService",FormMethod.Get)){
+    <div>
+        <p>
+            Find By Product Name : @Html.TextBox("SearchString")
+            <input type="submit" value="Search"/>
+        </p>
+    </div>
+}
 
 <p>
     <a asp-action="Create">Create New</a>

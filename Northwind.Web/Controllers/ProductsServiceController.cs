@@ -22,9 +22,13 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: ProductsService
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             var product = await _context.ProductService.GetAllProduct(false);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                product = product.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower()));
+            }
             return View(product);
         }
 
