@@ -22,7 +22,7 @@ namespace Northwind.Web.Controllers
             _context = context;
         }
 
-        // GET: ProductsService
+        // GET: ProductsService4
         public async Task<IActionResult> Index(string searchString, string currentFilter, string sortOrder, int? page, int? fetchSize)
         {
             var pageIndex = page ?? 1;

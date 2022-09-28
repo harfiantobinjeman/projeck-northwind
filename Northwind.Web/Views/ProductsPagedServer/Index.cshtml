@@ -16,11 +16,11 @@
             Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Product or Company Name" })
             <input type="submit" value="Search" />
             PageSize : @Html.DropDownList("FetchSize",
-            ViewBag.PagedList as SelectList, "5",
-            new{
-                @class="dropdown",
-                @onchange="getFetchSize(this.value)"
-            }
+        ViewBag.PagedList as SelectList, "5",
+        new{
+        @class="dropdown",
+        @onchange="getFetchSize(this.value)"
+        }
         )
         </p>
     </div>
@@ -90,7 +90,7 @@
 @Html.PagedListPager(Model, page => Url.Action("Index", new{page, CurrentFilter = ViewBag.CurrentFilter}))
 
 <script>
-    function getFetchSize(value){
-        document.location.href = "/ProductsPagedServer?FetchSize="+value;
+    function getFetchSize(value) {
+        document.location.href = "/ProductsPagedServer?&FetchSize=" + value;
     }
 </script>
