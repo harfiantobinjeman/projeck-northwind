@@ -23,7 +23,8 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: ProductsService4
-        public async Task<IActionResult> Index(string searchString, string currentFilter, string sortOrder, int? page, int? fetchSize)
+        public async Task<IActionResult> Index(string searchString, string currentFilter, 
+            string sortOrder, int? page, int? fetchSize)
         {
             var pageIndex = page ?? 1;
             var pageSize = fetchSize ?? 5;
@@ -70,6 +71,12 @@ namespace Northwind.Web.Controllers
             var productDtoPaged = new StaticPagedList<ProductDto>(productForSort, pageIndex, pageSize - (pageSize - 1), totalRows);
             ViewBag.PagedList = new SelectList(new List<int> { 8, 15, 20 });
             return View(productDtoPaged);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
+        {
+            return View("Create");
         }
 
         // GET: ProductsService/Details/5
