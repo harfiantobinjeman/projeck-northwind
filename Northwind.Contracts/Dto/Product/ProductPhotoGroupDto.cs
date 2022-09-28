@@ -20,6 +20,8 @@ namespace Northwind.Contracts.Dto.Product
         [Display(Name = "Photo 3")]
         public IFormFile Photo3 { get; set; }
 
+        public List<IFormFile> AllPhoto { get; set; }
+
 
 
     }

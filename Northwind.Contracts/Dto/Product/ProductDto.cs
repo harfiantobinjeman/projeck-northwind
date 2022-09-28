@@ -20,6 +20,7 @@ namespace Northwind.Contracts.Dto.Product
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
+
         public virtual CategoryDto Category { get; set; }
         public virtual SupplierDto Supplier { get; set; }
     }

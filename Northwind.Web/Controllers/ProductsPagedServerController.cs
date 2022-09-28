@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Contracts.Dto.Category;
 using Northwind.Contracts.Dto.Product;
 using Northwind.Domain.Models;
 using Northwind.Persistence;
@@ -23,7 +26,7 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: ProductsService4
-        public async Task<IActionResult> Index(string searchString, string currentFilter, 
+        public async Task<IActionResult> Index(string searchString, string currentFilter,
             string sortOrder, int? page, int? fetchSize)
         {
             var pageIndex = page ?? 1;
@@ -46,7 +49,7 @@ namespace Northwind.Web.Controllers
                 p.Supplier.CompanyName.ToLower().Contains(searchString.ToLower()));
             }
 
-            
+
             ViewBag.ProductNameSort = String.IsNullOrEmpty(sortOrder) ? "product_name" : "";
             ViewBag.UnitPriceSort = sortOrder == "price" ? "unit_price" : "price";
 
@@ -76,7 +79,56 @@ namespace Northwind.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
         {
-            return View("Create");
+            _context.ProductService.Insert(productPhotoDto.productForCreateDto);
+            var latestProductId = _context.ProductService.CreateProductId(productPhotoDto.productForCreateDto);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var file = productPhotoDto.AllPhoto;
+                    var folderName = Path.Combine("Resources", "images");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    if (file.Count > 0)
+                    {
+                        foreach (var item in file)
+                        {
+                            var fileName = ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Trim('"');
+                            var fullPath = Path.Combine(pathToSave, fileName);
+                            var dbPath = Path.Combine(folderName, fileName);
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                item.CopyTo(stream);
+                            }
+
+                            var convertSize = (Int16)item.Length;
+
+                            var productPhoto = new ProductPhotoCreateDto
+                            {
+                                PhotoFilename = fileName,
+                                PhotoFileType = item.ContentType,
+                                PhotoFileSize = (byte)convertSize,
+                                PhotoProductId = latestProductId.ProductId
+                            };
+                            _context.ProductPhotoService.Insert(productPhoto);
+
+                        }
+                        return RedirectToAction(nameof(Index));
+
+                        /*var productGroup = new ProductPhotoGroupDto
+                        {
+                            productForCreateDto = productPhotoDto.productForCreateDto,
+                            Photo1 = productPhotoDto.Photo1,
+                            Photo2 = productPhotoDto.Photo2,
+                            Photo3 = productPhotoDto.Photo3
+                        };*/
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            return View();
         }
 
         // GET: ProductsService/Details/5
@@ -117,6 +169,7 @@ namespace Northwind.Web.Controllers
                 _context.ProductService.Insert(product);
                 return RedirectToAction(nameof(Index));
             }
+
             var allCategory = await _context.CategoryService.GetAllCategory(false);
             var allSupplier = await _context.SupplierService.GetAllSupplier(false);
             ViewData["CategoryId"] = new SelectList(allCategory, "CategoryId", "CategoryName", product.CategoryId);

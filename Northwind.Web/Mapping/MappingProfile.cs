@@ -18,6 +18,9 @@ namespace Northwind.Web.Mapping
 
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Product, ProductForCreateDto>().ReverseMap();
+
+            CreateMap<ProductPhoto, ProductPhotoDto>().ReverseMap();
+            CreateMap<ProductPhoto, ProductPhotoCreateDto>().ReverseMap();
         }
     }
 }

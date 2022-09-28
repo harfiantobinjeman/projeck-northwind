@@ -23,6 +23,15 @@ namespace Northwind.Services
             _mapper = mapper;
         }
 
+        public ProductDto CreateProductId(ProductForCreateDto productForCreateDto)
+        {
+            var productModel = _mapper.Map<Product>(productForCreateDto);
+            _repositoryManager.ProductRepository.Insert(productModel);
+            _repositoryManager.Save();
+            var productDto = _mapper.Map<ProductDto>(productModel);
+            return productDto;
+        }
+
         public void Edit(ProductDto productDto)
         {
             var edit = _mapper.Map<Product>(productDto);
