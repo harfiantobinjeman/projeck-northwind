@@ -79,7 +79,6 @@ namespace Northwind.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
         {
-            _context.ProductService.Insert(productPhotoDto.productForCreateDto);
             var latestProductId = _context.ProductService.CreateProductId(productPhotoDto.productForCreateDto);
             if (ModelState.IsValid)
             {
