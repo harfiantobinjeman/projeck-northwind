@@ -16,6 +16,7 @@ namespace Northwind.Contracts.Dto.Product
         public int? PhotoPrimary { get; set; }
 
         public virtual ProductDto PhotoProducts { get; set; }
+        public virtual ICollection<ProductDto> Products { get; set; }
 
     }
 }

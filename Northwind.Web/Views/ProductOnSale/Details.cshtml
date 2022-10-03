@@ -1,0 +1,44 @@
+﻿@model Northwind.Contracts.Dto.Product.ProductDto
+
+<h4 style="text-align: center">Product Details</h4>
+
+<div class="col-md-6 col-lg-4">
+    <div class="card mb-4">
+        <img class="card-img-top" style="height:300px" src="@Url.Content("~/Resources/Images/"+Model.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
+    </div>
+</div>
+    <div class="col-md-6 col-lg-3">
+        <h5>Product Name</h5>
+        <h5>Product Price</h5>
+        <h5>Category Name</h5>
+        <h5>Unit Stock</h5>
+        <button type="button" class="btn btn-outline-danger">Masukan Keranjang</button>
+    </div>
+    <div class="col-md-6 col-lg-1" style="width:20px">
+        <h5>:</h5>
+        <h5>:</h5>
+        <h5>:</h5>
+        <h5>:</h5>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <h5>@Html.DisplayFor(Model=>Model.ProductName)</h5>
+        <h5>@Html.DisplayFor(Model =>Model.UnitPrice)</h5>
+        <h5>@Html.DisplayFor(Model =>Model.Category.CategoryName)</h5>
+        <h5>@Html.DisplayFor(Model =>Model.UnitsInStock)</h5>
+        <button type="button" class="btn btn-danger">Beli Sekarang</button>
+    </div>
+<a asp-action="Index">Back to List</a>
+
+@*<div class="card-body">
+    @Html.DisplayFor(Model =>Model.UnitPrice)
+            <p class="card-text">
+                <center><b>@Html.DisplayFor(model=>model.ProductName)</b></center>
+            </p>
+            <p class="card-text">
+                @Html.LabelFor(model=>model.UnitPrice) :
+                @Html.DisplayFor(model=>model.UnitPrice)
+                <br>
+                @Html.LabelFor(model => model.UnitsInStock, htmlAttributes : new{@class="form-label"}) :
+                @Html.DisplayFor(model => model.UnitsInStock)
+            </p>
+        </div>*@

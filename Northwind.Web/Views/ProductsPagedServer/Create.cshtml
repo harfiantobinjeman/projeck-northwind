@@ -48,25 +48,28 @@
     <div class="col-9">
         <div class="row text-center text-lg-start">
             <div class="col-lg-4 col-md-4 col-6">
-                <img id="preview1" style="width:100px;height:100px">
+                <img id="preview1" style="width:100px;height:100px" src="../Resources/images/null.jpeg">
                 @Html.LabelFor(model => model.Photo1, htmlAttributes : new{@class="form-label"})
                 <br>
                 @Html.TextBoxFor(model => model.AllPhoto,"",
                 new{@type="file",@accept="image/*", @onchange="previewImage(this,'preview1')"})
+                <button type="button" onclick="clearPhoto('AllPhoto','preview1')" style="width:100px">Clear</button>
             </div>
             <div class="col-lg-4 col-md-4 col-6">
-                <img id="preview2" style="width:100px;height:100px">
+                <img id="preview2" style="width:100px;height:100px" src="../Resources/images/null.jpeg">
                 @Html.LabelFor(model => model.Photo2, htmlAttributes : new{@class="form-label"})
                 <br>
                 @Html.TextBoxFor(model => model.AllPhoto,"",
                 new{@type="file",@accept="image/*", @onchange="previewImage(this,'preview2')"})
+                <button type="button" onclick="clearPhoto('AllPhoto','preview2')" style="width:100px">Clear</button>
             </div>
             <div class="col-lg-4 col-md-4 col-6">
-                <img id="preview3" style="width:100px;height:100px">
+                <img id="preview3" style="width:100px;height:100px" src="../Resources/images/null.jpeg">
                 @Html.LabelFor(model => model.Photo3, htmlAttributes : new{@class="form-label"})
                 <br>
                 @Html.TextBoxFor(model => model.AllPhoto,"",
             new{@type="file",@accept="image/*", @onchange="previewImage(this,'preview3')"})
+                <button type="button" onclick="clearPhoto('AllPhoto','preview3')" style="width:100px">Clear</button>
             </div>
         </div>
     </div>
@@ -75,9 +78,14 @@
 }
 
 <script>
-    function previewImage(elemen, value) {
+    function clearPhoto(photo,preview){
+        document.getElementById(photo).value='';
+        document.getElementById(preview).src = "../Resources/images/null.jpeg";
+        console.log(photo)
+    }
+    function previewImage(el, value) {
         //store file image to variable files
-        const files = elemen.files[0];
+        const files = el.files[0];
 
         //create object FileReader
         const fileReader = new FileReader();
@@ -93,9 +101,3 @@
 
     }
 </script>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }

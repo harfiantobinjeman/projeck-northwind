@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Contracts.Dto.Category;
 using Northwind.Contracts.Dto.Product;
+using Northwind.Domain.Entities;
 using Northwind.Domain.Models;
 using Northwind.Persistence;
+using Northwind.Services;
 using Northwind.Services.Abstraction;
 using X.PagedList;
 
@@ -18,12 +20,19 @@ namespace Northwind.Web.Controllers
 {
     public class ProductsPagedServerController : Controller
     {
+        private readonly NorthwindContext _conten;
         private readonly IServiceManager _context;
+        private readonly IUtilityService _utilityService;
 
-        public ProductsPagedServerController(IServiceManager context)
+        public ProductsPagedServerController(NorthwindContext conten, IServiceManager context, IUtilityService utilityService)
         {
+            _conten = conten;
             _context = context;
+            _utilityService = utilityService;
         }
+
+
+
 
         // GET: ProductsService4
         public async Task<IActionResult> Index(string searchString, string currentFilter,
@@ -76,10 +85,37 @@ namespace Northwind.Web.Controllers
             return View(productDtoPaged);
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
+                public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoGroupDto)
         {
-            var latestProductId = _context.ProductService.CreateProductId(productPhotoDto.productForCreateDto);
+            if (ModelState.IsValid)
+            {
+                var productPhotoGroup = productPhotoGroupDto;
+                var listPhoto = new List<ProductPhotoCreateDto>();
+                foreach (var itemPhoto in productPhotoGroup.AllPhoto)
+                {
+                    var fileName = _utilityService.UploadSinggleFile(itemPhoto);
+                    var photo = new ProductPhotoCreateDto
+                    {
+                        PhotoFilename = fileName,
+                        PhotoFileSize = (short?)itemPhoto.Length,
+                        PhotoFileType = itemPhoto.ContentType
+                    };
+                    listPhoto.Add(photo);
+                }
+                _context.ProductService.CreateProductManyPhoto(productPhotoGroupDto.productForCreateDto,listPhoto);
+                /*var photo1 = _utilityService.UploadSinggleFile(productPhotoDto.Photo1);
+                var photo2 = _utilityService.UploadSinggleFile(productPhotoDto.Photo2);
+                var photo3 = _utilityService.UploadSinggleFile(productPhotoDto.Photo3);*/
+            }
+
+            ViewData["CategoryId"] = new SelectList(_conten.Categories, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(_conten.Suppliers, "SupplierId", "CompanyName");
+
+            return View("Create");
+            /*var latestProductId = _context.ProductService.CreateProductId(productPhotoDto.productForCreateDto);
             if (ModelState.IsValid)
             {
                 try
@@ -113,13 +149,13 @@ namespace Northwind.Web.Controllers
                         }
                         return RedirectToAction(nameof(Index));
 
-                        /*var productGroup = new ProductPhotoGroupDto
+                        *//*var productGroup = new ProductPhotoGroupDto
                         {
                             productForCreateDto = productPhotoDto.productForCreateDto,
                             Photo1 = productPhotoDto.Photo1,
                             Photo2 = productPhotoDto.Photo2,
                             Photo3 = productPhotoDto.Photo3
-                        };*/
+                        };*//*
                     }
                 }
                 catch (Exception ex)
@@ -127,7 +163,7 @@ namespace Northwind.Web.Controllers
                     throw;
                 }
             }
-            return View();
+            return View();*/
         }
 
         // GET: ProductsService/Details/5
@@ -175,11 +211,22 @@ namespace Northwind.Web.Controllers
             ViewData["SupplierId"] = new SelectList(allSupplier, "SupplierId", "CompanyName", product.SupplierId);
             return View(product);
         }
-
+        //perubahan edit
         // GET: ProductsService/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            var product = await _context.ProductService.GetProductPhotoById((int)id, true);
+            var productPhoto = await _context.ProductPhotoService.GetProductDtoById((int)id, true);
+            if (ModelState.IsValid)
+            {
+                return View(product);
+            }
+
+            ViewData["CategoryId"] = new SelectList(_conten.Categories, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(_conten.Suppliers, "SupplierId", "CompanyName");
+
+            return View(product);
+            /*if (id == null)
             {
                 return NotFound();
             }
@@ -192,9 +239,22 @@ namespace Northwind.Web.Controllers
             var allSupplier = await _context.SupplierService.GetAllSupplier(false);
             ViewData["CategoryId"] = new SelectList(allCategory, "CategoryId", "CategoryName", product.CategoryId);
             ViewData["SupplierId"] = new SelectList(allSupplier, "SupplierId", "CompanyName", product.SupplierId);
-            return View(product);
+            return View(product);*/
         }
+        //akhir
+        //tambahan edit
 
+        [HttpPost]
+        public async Task<IActionResult> EditProductPhoto(int? id)
+        {
+            if (ModelState.IsValid)
+            {
+                var product = await _context.ProductService.GetProductPhotoGroupById((int)id, true);
+                return View("Edit");
+            }
+            return View("Edit");
+        }
+        //batas tamabahan edit
         // POST: ProductsService/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

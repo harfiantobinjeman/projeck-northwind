@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Northwind.Contracts.Dto.Product.ProductDto>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-6 col-xl-4">
+        <a asp-action="Details" asp-route-id="@item.ProductId">
+        <div class="card mb-3">
+        <img class="card-img-top" style="width:300px;height:300px" src="@Url.Content("~/Resources/images/"+item.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card Image Cap">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                <p class="card-text">
+                    This is a longer card with supporting text below as a natural lead-in to additional content.
+                    This content is a little bit longer.
+                </p>
+            </div>
+        </div>
+        </a>
+    </div>
+}

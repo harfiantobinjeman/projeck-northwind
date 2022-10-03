@@ -23,5 +23,6 @@ namespace Northwind.Contracts.Dto.Product
 
         public virtual CategoryDto Category { get; set; }
         public virtual SupplierDto Supplier { get; set; }
+        public virtual ICollection<ProductPhotoDto> ProductPhotos { get; set; }
     }
 }

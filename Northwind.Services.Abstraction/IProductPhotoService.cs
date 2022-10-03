@@ -14,6 +14,10 @@ namespace Northwind.Services.Abstraction
         Task<IEnumerable<ProductPhotoDto>> GetAllProductPhoto(bool trackChanges);
 
         Task<ProductPhotoDto> GetProductPhotoById(int productPhotoId, bool trackChanges);
+        
+        //tambahan Edit
+        Task<ProductDto> GetProductDtoById(int productPhotoId, bool trackChange);
+        //Akhir Tambahan
 
         Task<IEnumerable<ProductPhotoDto>> GetProductPhotoPaged(int pageIndex, int pageSize, bool trackChanges);
 

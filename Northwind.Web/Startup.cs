@@ -40,12 +40,15 @@ namespace Northwind.Web
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddAutoMapper(typeof(Startup));
-
+            //Pemanggilan foto
+            services.AddScoped<IUtilityService, UtilityService>();
             // register dbcontext
             services.AddDbContext<NorthwindContext>(opts =>
             {
                 opts.UseSqlServer(Configuration["ConnectionStrings:NorthwindDb"]);
             });
+
+            
      
         }
 

@@ -15,6 +15,15 @@ namespace Northwind.Services.Abstraction
 
         Task<ProductDto> GetProductById(int productId, bool trackChanges);
 
+        Task<IEnumerable<ProductDto>> GetProductOneSales(bool trackChanges);
+
+        //tambahan
+        Task<ProductPhotoGroupDto> GetProductPhotoGroupById(int productId, bool trackChange);
+
+        Task<ProductPhotoDto> GetProductPhotoById(int productId, bool trackChange);
+        //batas tambahan
+        Task<ProductDto> GetProductSalesById(int productId, bool trackChanges);
+
         Task<IEnumerable<ProductDto>> GetProductPaged(int pageIndex, int pageSize, bool trackChanges);
 
         ProductDto CreateProductId(ProductForCreateDto productForCreateDto);
@@ -24,5 +33,9 @@ namespace Northwind.Services.Abstraction
         void Edit(ProductDto productDto);
 
         void Remove(ProductDto productDto);
+
+        void CreateProductManyPhoto(ProductForCreateDto productForCreateDto, 
+            List<ProductPhotoCreateDto> 
+            productPhotoCreateDtos);
     }
 }

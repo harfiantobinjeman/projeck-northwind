@@ -34,9 +34,23 @@ namespace Northwind.Persistence.Repositories
         public async Task<Product> GetProductById(int productId, bool trackChanges)
         {
             return await FindByCondition(p => p.ProductId.Equals(productId), trackChanges)
-                .Include(c => c.Category)
-                .Include(s => s.Supplier)
+                .Where(x => x.ProductPhotos.Any(y => y.PhotoProductId == x.ProductId))
+                .Include(x => x.ProductPhotos)
+                .Include(y => y.Category)
                 .SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductOneSales(bool trackChanges)
+        {
+            // throw new NotImplementedException();
+            /*var product =  await FindAll(trackChanges).Include(
+                p => p.ProductPhotos.SingleOrDefault())
+                .ToListAsync();
+            return product;*/
+            var product = await _dbContext.Products.Where(x => x.ProductPhotos.Any(y => y.PhotoProductId == x.ProductId))
+                .Include(p => p.ProductPhotos)
+                .ToListAsync();
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetProductPaged(int pageIndex, int pageSize, bool trackChanges)
@@ -47,6 +61,23 @@ namespace Northwind.Persistence.Repositories
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<Product> GetProductSalesById(int productId, bool trackChanges)
+        {
+            //throw new NotImplementedException();
+            return await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsOnSales(bool trackChanges)
+        {
+            //throw new NotImplementedException();
+            var product = await _dbContext.Products
+                .Where(x => x.ProductPhotos.Any(y=> y.PhotoProductId == x.ProductId))
+                .Include(x => x.ProductPhotos)
+                .ToListAsync();
+            return product;
+
         }
 
         public void Insert(Product product)
