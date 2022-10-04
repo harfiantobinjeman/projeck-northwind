@@ -1,4 +1,5 @@
 ﻿using Northwind.Domain.Base;
+using Northwind.Domain.Models;
 using Northwind.Domain.Repositories;
 using Northwind.Persistence.Repositories;
 using System;
@@ -17,6 +18,8 @@ namespace Northwind.Persistence.Base
         private IProductRepository _productRepository;
         private ISupplierRepository _supplierRepository;
         private IProductPhotoPhotoRepository _productPhotoRepository;
+        private IOrderRepository _orderRepository;
+        private IOrderDetailRepository _orderDetailRepository;
 
         public RepositoryManager(NorthwindContext dbContext)
         {
@@ -80,6 +83,30 @@ namespace Northwind.Persistence.Base
                     _productPhotoRepository = new ProductPhotoRepository(_dbContext);
                 }
                 return _productPhotoRepository;
+            }
+        }
+
+        public IOrderRepository OrdersRepository
+        {
+            get
+            {
+                if(_orderRepository == null)
+                {
+                    _orderRepository = new OrderRepository(_dbContext);
+                }
+                return _orderRepository;
+            }
+        }
+
+        public IOrderDetailRepository OrderDetailRepository
+        {
+            get
+            {
+                if (_orderDetailRepository==null)
+                {
+                    _orderDetailRepository = new OrderDetailRepository(_dbContext);
+                }
+                return _orderDetailRepository;
             }
         }
 

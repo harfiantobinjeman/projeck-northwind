@@ -24,6 +24,11 @@ namespace Northwind.Web.Mapping
             //tambahan edit
             CreateMap<ProductPhoto, ProductPhotoGroupDto>().ReverseMap();
             //selesai tambahan edit
+
+            //tambahan untuk order
+            CreateMap<Order, OrderDto>().ReverseMap();
+
+            CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
         }
     }
 }

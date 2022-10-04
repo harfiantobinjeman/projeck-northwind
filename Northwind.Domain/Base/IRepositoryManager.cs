@@ -10,10 +10,18 @@ namespace Northwind.Domain.Base
     public interface IRepositoryManager
     {
         ICategoryRepository CategoryRepository { get; }
+
         ICustomerRepository EmployeeRepository { get; }
+
         IProductRepository ProductRepository { get; }
+
         ISupplierRepository SupplierRepository { get; }
+
         IProductPhotoPhotoRepository ProductPhotoRepository { get; }
+
+        IOrderRepository OrdersRepository { get; }
+
+        IOrderDetailRepository OrderDetailRepository { get; }
 
         void Save();
 
