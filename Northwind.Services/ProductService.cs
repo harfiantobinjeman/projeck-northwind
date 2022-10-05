@@ -125,5 +125,18 @@ namespace Northwind.Services
             var productModel =  _mapper.Map<ProductDto>(productDto);
             return productModel;
         }
+
+        void IProductService.CreateOrderDetail(OrderForCreateDto orderForCreateDto, OrderDetailForCreateDto orderDetailForCreateDto)
+        {
+            //throw new NotImplementedException();
+            var order = _mapper.Map<Order>(orderForCreateDto);
+            _repositoryManager.OrdersRepository.Insert(order);
+            _repositoryManager.Save();
+
+            var orderDetail = _mapper.Map<OrderDetail>(orderDetailForCreateDto);
+            _repositoryManager.OrderDetailRepository.Insert(orderDetail);
+            orderDetail.OrderId = order.OrderId;
+            _repositoryManager.Save();
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Contracts.Dto.Product;
 using Northwind.Services.Abstraction;
+using System;
 using System.Threading.Tasks;
 
 namespace Northwind.Web.Controllers
@@ -97,6 +99,30 @@ namespace Northwind.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<IActionResult> CheckoutOrder(ProductDto productDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var productId = productDto.ProductId;
+                var unitPrice = productDto.UnitPrice;
+                var order = new OrderForCreateDto();
+                {
+                    order.OrderDate = DateTime.Now;
+                    order.RequiredDate = DateTime.Now.AddDays(3);
+                }
+                var orderDetail = new OrderDetailForCreateDto();
+                {
+                    orderDetail.ProductId = productId;
+                    orderDetail.UnitPrice = (decimal)unitPrice;
+                    orderDetail.Quantity = Convert.ToInt16(productDto.QuantityPerUnit);
+                    orderDetail.Discount = 0;
+                }
+                _serviceManajer.ProductService.CreateOrderDetail(order, orderDetail);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(productDto);
         }
     }
 }

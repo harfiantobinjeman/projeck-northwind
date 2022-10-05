@@ -53,10 +53,15 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: OrderDetails/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId");
+            /*ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "OrderId");
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductName");
+            return View();*/
+            var allCategory = await _serviceManager.OrderService.GetOrdersAllService(false);
+            var allSupplier = await _serviceManager.ProductPhotoService.GetAllProductPhoto(false);
+            ViewData["CategoryId"] = new SelectList(allCategory, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(allSupplier, "SupplierId", "CompanyName");
             return View();
         }
 

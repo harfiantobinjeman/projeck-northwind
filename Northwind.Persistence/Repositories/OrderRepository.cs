@@ -26,7 +26,9 @@ namespace Northwind.Persistence.Repositories
         public async Task<Order> GetOrderByIdRepo(int orderId, bool trackChange)
         {
             //throw new NotImplementedException();
-            return await FindByCondition(p => p.OrderId.Equals(orderId), trackChange).SingleOrDefaultAsync();
+            return await FindByCondition(p => p.OrderId.Equals(orderId), trackChange)
+                .OrderBy(p => p.OrderId)
+                .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Order>> GetOrdersAllRepo(bool trackChange)

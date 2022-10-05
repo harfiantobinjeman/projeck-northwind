@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Discount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order.OrderId)
+                @Html.DisplayNameFor(model => model.OrderDto.OrderId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product.ProductName)
@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Order.OrderId)
+                @Html.DisplayFor(modelItem => item.OrderDto.OrderId)
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.Product.ProductName)

@@ -27,8 +27,10 @@ namespace Northwind.Web.Mapping
 
             //tambahan untuk order
             CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Order, OrderForCreateDto>().ReverseMap();
 
             CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailForCreateDto>().ReverseMap();
         }
     }
 }

@@ -37,5 +37,9 @@ namespace Northwind.Services.Abstraction
         void CreateProductManyPhoto(ProductForCreateDto productForCreateDto, 
             List<ProductPhotoCreateDto> 
             productPhotoCreateDtos);
+
+        //tambahan creat order
+        void CreateOrderDetail(OrderForCreateDto orderForCreateDto, OrderDetailForCreateDto orderDetailForCreateDto);
+
     }
 }
