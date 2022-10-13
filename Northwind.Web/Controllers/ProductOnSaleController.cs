@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Contracts.Dto.Product;
@@ -18,6 +19,7 @@ namespace Northwind.Web.Controllers
         }
 
         // GET: ProductOnSaleControlles
+        [Authorize (Roles ="Manager")]
         public async Task<ActionResult> Index()
         {
             //return View();
