@@ -66,14 +66,14 @@
         <div class="col-md-6 col-lg-4" style="width:200px">
             @Html.HiddenFor(Model =>Model.ProductId)
             <h5>@Html.DisplayFor(Model=>Model.ProductName)</h5>
-            @Html.HiddenFor(Model =>Model.UnitPrice)
-            <h5>@Html.DisplayFor(Model =>Model.UnitPrice)</h5>
+            <input type="hidden" class="input" style="width:40px" id="hasil2" name="UnitPrice" asp-route="@Model.UnitPrice" min="1" max="@Model.UnitPrice">
+            <p id="hasil3">@Html.DisplayFor(Model =>Model.UnitPrice)</p>
             <h5>@Html.DisplayFor(Model =>Model.Category.CategoryName)</h5>
             <h5>@Html.DisplayFor(Model =>Model.UnitsInStock)</h5>
             <div>
                 <button type="button" class="btn btn-outline-danger" onchange="getMinus" id="minus">-</button>
                 <input class="input" style="width:40px" id="hasil" name="QuantityPerUnit" asp-route="@Model.QuantityPerUnit" min="1" max="@Model.UnitsInStock">
-                <button type="button" class="btn btn-outline-danger" onclick="getPlus('hasil',@Html.DisplayFor(Model =>Model.UnitsInStock))" id="plus">+</button>
+                <button type="button" class="btn btn-outline-danger" onclick="getPlus('hasil',@Html.DisplayFor(Model =>Model.UnitsInStock),@Html.DisplayFor(Model =>Model.UnitPrice))" id="plus">+</button>
             </div>
             <button type="submit" class="btn btn-danger">Buy Now</button>
 
@@ -98,18 +98,24 @@
         </div>*@
 
 <script>
-    function getPlus(a, b) {
+    function getPlus(a, b, c) {
         var minusBtn = document.getElementById("minus"),
             plusBtn = document.getElementById("plus"),
             numberPlace = document.getElementById("hasil"),
+            hasilnya = document.getElementById("hasil2"),
+            hasilnya3 = document.getElementById("hasil3"),
             number = 0, /// number value
             min = 0, /// min number
             max = b; /// max number
+        hasilkali = 0;
         for (let i = 0; i < max; i++) {
             minusBtn.onclick = function () {
                 if (number > min) {
                     number = number - 1; /// Minus 1 of the number
                     numberPlace.setAttribute('value', number); /// Display the value in place of the number
+                    hasilkali = number * c;
+                    hasilnya.setAttribute('value', hasilkali);
+                    hasilnya3.innerText = hasilkali;
                 }
                 if (number == min) {
                     numberPlace.style.color = "red";
@@ -118,12 +124,14 @@
                 else {
                     numberPlace.style.color = "black";
                 }
-
             }
             plusBtn.onclick = function () {
                 if (number < max) {
                     number = number + 1;
-                    numberPlace.setAttribute('value', number);  /// Display the value in place of the number
+                    numberPlace.setAttribute('value', number); /// Display the value in place of the number
+                    hasilkali = number * c;
+                    hasilnya.setAttribute('value', hasilkali);
+                    hasilnya3.innerText = hasilkali;
                 }
                 if (number == max) {
                     numberPlace.style.color = "red";

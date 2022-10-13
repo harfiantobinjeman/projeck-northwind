@@ -1,13 +1,15 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Northwind.Domain.Configuration;
 using Northwind.Domain.Models;
 
 #nullable disable
 
 namespace Northwind.Persistence
 {
-    public partial class NorthwindContext : DbContext
+    public partial class NorthwindContext : IdentityDbContext<User>
     {
         public NorthwindContext()
         {
@@ -61,6 +63,13 @@ namespace Northwind.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //add New coding
+            base.OnModelCreating(modelBuilder);
+            //
+            //Aplly Role  Configuration
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //
+
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<AlphabeticalListOfProduct>(entity =>

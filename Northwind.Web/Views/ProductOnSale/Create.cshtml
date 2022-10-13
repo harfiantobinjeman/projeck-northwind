@@ -1,12 +1,17 @@
-﻿@model Northwind.Contracts.Dto.Product.OrderDetailDto
+﻿@model Northwind.Contracts.Dto.Product.OrderDto
 
-    <div class="input-group" style="padding-bottom:20px">
-        <button class="btn btn-outline-danger" onchange="getMinus" id="minus">-</button>
-        <p id="hasil" style="padding-left:10px;padding-right:10px;">0</p>
-        <button class="btn btn-outline-danger" onclick="getPlus('hasil','@Html.DisplayFor(Model=>Model.OrderId)'" id="plus">+</button>
-    </div>
-    <script>
-    function getPlus(a, b) {
-        console.log(b)
+
+<h4 style="text-align: center">Product Details</h4>
+@using (Html.BeginForm("CheckoutOrder"
+, "ProductOnSale"
+, FormMethod.Post
+, new { @enctype = "multipart/form-data" }))
+{
+    <button getPlus(@Model.CustomerId)>KLik me</button>
+
+}
+<script>
+    function getPlus(a) {
+        console.log(a);
     }
-    </script>
+</script>

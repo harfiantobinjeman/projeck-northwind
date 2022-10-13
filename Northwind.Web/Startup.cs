@@ -12,6 +12,7 @@ using Northwind.Persistence;
 using Northwind.Persistence.Base;
 using Northwind.Services;
 using Northwind.Services.Abstraction;
+using Northwind.Web.Extensions;
 using Northwind.Web.Models;
 using Northwind.Web.Repository;
 using System;
@@ -48,8 +49,9 @@ namespace Northwind.Web
                 opts.UseSqlServer(Configuration["ConnectionStrings:NorthwindDb"]);
             });
 
-            
-     
+            //add.configureIdentity Here From servicee
+            services.ConfigureIdentity();
+            services.ConfigureApplicationCookie(o => o.LoginPath = "/Authentication/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +69,11 @@ namespace Northwind.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //call UserAuthentication
+            app.UseAuthentication();
+
+            app.UseAuthorization();
             // set folder resources to static file
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -78,6 +85,8 @@ namespace Northwind.Web
 
             app.UseAuthorization();
 
+            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -87,6 +96,7 @@ namespace Northwind.Web
 
             //ShopeePopulateData.PopulateData(app);
 
+            
         }
     }
 }
