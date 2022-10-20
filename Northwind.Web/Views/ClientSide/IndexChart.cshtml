@@ -1,0 +1,123 @@
+﻿<h3>Apex Chart</h3>
+
+<div id="chart"></div>
+<div id="polarChart"></div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //renderChart();
+            //get narik data
+            let totalProduct = [];
+            let totalCategories =[];
+
+            $.ajax({
+                type : 'Get',
+                url: '/ClientSide/GetTotalProductByCategory',
+                success : function(result){
+                    console.log(result);
+                    //nanam logic dimari
+                    for (let i = 0; i < result.length; i++){
+                        totalProduct.push(result[i].totalProduct);
+                        totalCategories.push(result[i].categoryName)
+                    }
+                    console.log(totalProduct)
+                    console.log(totalCategories)
+
+                    //kalau udah masuk langsung di panggil function nya
+                    renderBarChart(totalProduct, totalCategories)
+                    //ngirim data ke polarchart
+                    renderPolar(totalProduct)
+                },
+                error: function (result) {
+                    console.log("failed to fetch data")
+                }
+            });
+        });
+
+        function renderBarChart(dataSeries, dataCatagories) {
+            var options = {
+                series: [{
+                    data: dataSeries
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: dataCatagories,
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        }
+
+        function renderPolar(dataSeries) {
+            var options = {
+                series: dataSeries,
+                chart: {
+                    type: 'polarArea',
+                },
+                stroke: {
+                    colors: ['#fff']
+                },
+                fill: {
+                    opacity: 0.8
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chart = new ApexCharts(document.querySelector("#polarChart"), options);
+            chart.render();
+        }
+
+        function renderChart(){
+            var options = {
+                series: [{
+                    data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+                        'United States', 'China', 'Germany'
+                    ],
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        }
+    </script>
+}

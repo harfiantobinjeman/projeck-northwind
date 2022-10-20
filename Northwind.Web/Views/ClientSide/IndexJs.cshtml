@@ -1,0 +1,77 @@
+﻿
+<h3>Java Script</h3>
+<h2 id="today"></h2>
+
+<input id="firsName"/>
+<button id="btnName">klick me</button>
+
+<input id="lastName" />
+<button class="btn-secondary">klick me</button>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>SubTotalPrice</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input id="product" value="bike" readonly /></td>
+            <td><input id="price" value="15" type="number" /></td>
+            <td><input id="qty" type="number" value="1"/></td>
+            <td><input id="subTotalPrice" value="15" readonly /></td>
+            <td><button class="btn-secondary" id="btnAdd" onclick="add">Add Item</button></td>
+        </tr>
+    </tbody>
+</table>
+
+@section scripts{
+    <script type="text/javascript">
+        let today = new Date();
+
+        var elproduct = document.getElementById("product")
+        var elBtn = document.getElementById("btnAdd");
+        
+
+        elBtn.onclick = function () {
+            var elPrice =document.getElementById("price")
+            var elQty = document.getElementById("qty")
+            var elSUbTotal = document.getElementById("subTotalPrice")
+            var hasil = 0;
+            var qtyPlus = parseInt(elQty.value);
+            qtyPlus++;
+            if (elQty.value <= 0 && elPrice.value <= 0) {
+                var response = confirm("Qty tidak boleh kurang dari 0")
+            }
+            else{
+                elQty.value = qtyPlus;
+                hasil = elQty.value * elPrice.value
+                elSUbTotal.value = hasil
+            }
+        }
+
+        //
+
+        //searcr by id
+        var elH2 = document.getElementById("today");
+        elH2.textContent = today;
+
+        var elFirsName = document.getElementById("firsName");
+        elFirsName.value = "Anto";
+        document.getElementById("btnName").addEventListener('click',()=>{
+            elFirsName.value = "Bootcamp Id";
+        })
+
+        var elLasName = document.getElementById("lastName");
+        elLasName.value = "Antojak";
+
+        document.querySelector('.btn-secondary').onclick = function(e){
+            elLasName.value ="Sentul"
+        }
+
+    </script>
+}

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Northwind.Domain.Configuration;
+using Northwind.Domain.Dto;
 using Northwind.Domain.Models;
 
 #nullable disable
@@ -52,6 +53,9 @@ namespace Northwind.Persistence
         public virtual DbSet<Territory> Territories { get; set; }
         public virtual DbSet<ProductPhoto> ProductPhotos { get; set; }
 
+        //penambahan untuk apex chart
+        public virtual DbSet<TotalProductByCategory> TotalProductByCategoriesSQL { get; set; }
+
         /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
                 {
                     if (!optionsBuilder.IsConfigured)
@@ -68,6 +72,16 @@ namespace Northwind.Persistence
             //
             //Aplly Role  Configuration
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //
+
+
+            //penambahan apex chart
+
+            modelBuilder.Entity<TotalProductByCategory>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("TotalProductByCategoriesSQL");
+            });
             //
 
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");

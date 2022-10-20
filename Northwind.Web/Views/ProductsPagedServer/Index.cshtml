@@ -13,7 +13,8 @@
 {
     <div>
         <p>
-            Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Product or Company Name" })
+            Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string,
+            new { placeholder = "Product or Company Name" })
             <input type="submit" value="Search" />
             PageSize : @Html.DropDownList("FetchSize",
         ViewBag.PagedList as SelectList, "5",
